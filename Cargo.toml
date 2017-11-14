@@ -1,0 +1,8 @@
+[package]
+name = "rsirc"
+version = "0.1.0"
+authors = ["stormchaser3000"]
+
+[dependencies]
+irc = "0.12.5"
+pancurses = "0.12"
