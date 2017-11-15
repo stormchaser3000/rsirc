@@ -5,4 +5,4 @@ authors = ["stormchaser3000"]
 
 [dependencies]
 irc = "0.12.5"
-pancurses = "0.12"
+ncurses = "5.86.0"
