@@ -1,17 +1,18 @@
-extern crate pancurses;
+extern crate ncurses;
 extern crate irc;
 
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
-use pancurses::*;
 use std::default::Default;
 use irc::client::prelude::*;
+use std::char;
+use ncurses::*;
 
 fn main()
 {
-    let pathtofile = Path::new("doc/copyright.md");
+    let pathtofile = Path::new("README.md");
 
     let mut f = File::open(&pathtofile).expect("could not read file: file not found");
     let mut copyright = String::new();
@@ -19,23 +20,24 @@ fn main()
     println!("Welcome to rsirc, an irc client written in rust");
     println!("\n{}", copyright);
 
-    let args: Vec<String> = env::args.collect();
+    let args: Vec<String> = env::args().collect();
+
     let cfg = Config {
-        nickname: Some(format!(&args[1])),
-        server: Some(format!(&args[2])),
-        channel: Some(vec![format![&args[3]]]),
+        nickname: Some(format!["rsirc_test"]),
+        server: Some(format!["chat.freenode.net"]),
+        channels: Some(vec![format!["##SC-Economy"]]),
+        .. Default::default()
     };
 
     let server = IrcServer::from_config(cfg).unwrap();
     server.identify().unwrap();
-
-    let window = initscr();
+    initscr();
+    raw();
+    keypad(stdscr(), true);
+    let mut m = String::new();
     server.for_each_incoming(|message| {
-        window.printw(&message)
-        while (true)
-        {
-            window.refresh()
-        }
-    })
+        printw(&message.to_string());
+        refresh();
+    });
 
 }
